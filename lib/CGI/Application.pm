@@ -1965,6 +1965,27 @@ will try to set the run mode from the first part of $ENV{PATH_INFO} (before the
 first "/"). To specify that you would rather get the run mode name from the 2nd
 part of $ENV{PATH_INFO}:
 
+ $webapp->mode_param(
+ 	path_info=> 1,
+ 	param =>'rm',
+ 	priority => 'path'
+ );
+ 
+With the option C<< 'priority' => 'param' >> you can determine, that, if a form 
+parameter is named that will contain the name of the run mode, this one should 
+also be used, if C<< path_info >> is set to a true value. This gives you more 
+flexibility. You can specify a run mode with a hidden field or with a button 
+and can display any path you want. Especially specifying a runmode with a button 
+as follows is now also possible, if mode_param{'path_info'} is set to a true 
+value:
+
+ <form action=\"/welcome/mode2\" method=\"post\">
+ <button name=\"rm\" value=\"mode3\">Go to mode3</button>
+ </form>
+
+With C<< 'priority' => 'param' >> the runmode mode3 is opened, although 
+'/welcome/mode2' is displayed in the adress bar
+
  $webapp->mode_param( path_info=> 2 );
 
 This also demonstrates that you don't need to pass in the C<param> hash key. It will
@@ -2040,10 +2061,11 @@ sub mode_param {
 			# If priority is set to param and a formular field with the 
 			# defined mode_param exist, do nothing (i.e. take ${param} see above, 
 			# not path_info!
-			if ( $p{priority} eq 'param' && $self->query->param("$mode_param")) {
-				
+			if ( $p{priority} eq 'param') {
+				$self->mode_param_priority( $p{priority} );
 			}
-			else {
+
+			unless ($p{priority} eq 'param' && $self->query->param("$mode_param") ) {
 				$mode_param = (length $pi) ?  { run_mode => $pi } : $mode_param;
 			}
 		}
@@ -2056,6 +2078,21 @@ sub mode_param {
 	}
 
 	return $self->{__MODE_PARAM};
+}
+
+sub mode_param_priority {
+	my $self = shift;
+	my ($mode_param_priority) = @_;
+
+	# First use?  Create new __MODE_PARAM
+	$self->{__MODE_PARAM_PRIORITY} = '' unless (exists($self->{__MODE_PARAM_PRIORITY}));
+
+	# If data is provided, set it
+	if (defined $mode_param_priority and length $mode_param_priority) {
+		$self->{__MODE_PARAM_PRIORITY} = $mode_param_priority;
+	}
+
+	return $self->{__MODE_PARAM_PRIORITY};
 }
 
 
