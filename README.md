@@ -23,10 +23,10 @@ To install this module, `cd` to the directory that contains this README
 file and type the following:
 
 ```
-perl Makefile.PL
-make
-make test
-make install
+perl Build.PL
+./Build
+./Build test
+./Build install
 ```
 
 CGI::Application builds on standard, non-proprietary technologies and
