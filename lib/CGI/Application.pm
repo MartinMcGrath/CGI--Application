@@ -4,7 +4,7 @@ use strict;
 use Class::ISA;
 use Scalar::Util;
 
-$CGI::Application::VERSION = '4.50_51';
+$CGI::Application::VERSION = '4.60';
 
 my %INSTALLED_CALLBACKS = (
 #	hook name          package                 sub
@@ -2523,13 +2523,8 @@ L<http://www.cgi-app.org>
 B<Support Mailing List>
 
 If you have any questions, comments, bug reports or feature suggestions,
-post them to the support mailing list!  To join the mailing list, simply
-send a blank message to "cgiapp-subscribe@lists.erlbaum.net".
-
-B<IRC>
-
-You can also drop by C<#cgiapp> on C<irc.perl.org> with a good chance of finding
-some people involved with the project there.
+post them to the support mailing list!  To join the mailing list, visit 
+http://lists.openlib.org/mailman/listinfo/cgiapp
 
 B<Source Code>
 
@@ -2597,8 +2592,8 @@ which are documented in the C<Changes> file.
 
 Thanks also to all the members of the CGI-App mailing list!
 Your ideas, suggestions, insights (and criticism!) have helped
-shape this module immeasurably.  (To join the mailing list, simply
-send a blank message to "cgiapp-subscribe@lists.erlbaum.net".)
+shape this module immeasurably.  (To join the mailing list, visit 
+http://lists.openlib.org/mailman/listinfo/cgiapp )
 
 =head1 LICENSE
 
