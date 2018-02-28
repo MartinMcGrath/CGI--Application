@@ -19,7 +19,7 @@ my $build = Module::Build->new
    'dist_author'        => [
             'Jesse Erlbaum <jesse@erlbaum.net>',
             'Mark Stosberg <mark@summersault.com>',
-            'Martin McGrath <marto@cpan.org>',
+            'Martin McGrath <mcgrath.martin@gmail.com>',
             'with the help of many others!' 
             ],
    'dist_abstract'      => 'Framework for building reusable web-applications',
