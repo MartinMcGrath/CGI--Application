@@ -4,7 +4,7 @@ use strict;
 use Class::ISA;
 use Scalar::Util;
 
-$CGI::Application::VERSION = '4.60';
+$CGI::Application::VERSION = '4.60_1';
 
 my %INSTALLED_CALLBACKS = (
 #	hook name          package                 sub
@@ -2530,7 +2530,7 @@ B<Source Code>
 
 This project is managed using git and is available on Github:
 
-    L<https://github.com/MartinMcGrath/CGI--Application>
+L<https://github.com/MartinMcGrath/CGI--Application>
 
 =head1 SEE ALSO
 
