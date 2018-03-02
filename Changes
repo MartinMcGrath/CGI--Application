@@ -1,9 +1,13 @@
 Revision history for CGI::Application.
 
+4.61
+
+    - Release fix in 4.60_1
+
 4.60_1
 
     [BUGS]
-    - Revert MANIFEST changes which seemd to have caused some issues
+    - Revert MANIFEST changes which seemed to have caused some issues
       https://github.com/MartinMcGrath/CGI--Application/issues/5
 
     [DOCUMENTATION]

@@ -4,7 +4,7 @@ use strict;
 use Class::ISA;
 use Scalar::Util;
 
-$CGI::Application::VERSION = '4.60_1';
+$CGI::Application::VERSION = '4.61';
 
 my %INSTALLED_CALLBACKS = (
 #	hook name          package                 sub
