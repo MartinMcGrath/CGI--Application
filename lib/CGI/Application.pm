@@ -60,6 +60,11 @@ sub new {
 	if (exists($rprops->{QUERY})) {
 		$self->query($rprops->{QUERY});
 	}
+	
+	# Set the ENV variable for PSGI Application
+	if (exists($rprops->{ENV})) {
+		$self->env($rprops->{ENV});
+	}
 
 	# Set up init param() values
 	if (exists($rprops->{PARAMS})) {
@@ -246,6 +251,7 @@ sub psgi_app {
 	
 	# PR from alter https://github.com/markstos/CGI--Application/pull/17
         #if (not defined $args_to_new->{QUERY}) {
+            $args_to_new->{ENV} = $env;
             require CGI::PSGI;
             $args_to_new->{QUERY} = CGI::PSGI->new($env);
         #}
@@ -258,6 +264,8 @@ sub psgi_app {
 sub run_as_psgi {
     my $self = shift;
     $self->{__IS_PSGI} = 1;
+    my $env = shift;
+    $self->env($env);
 
     # Run doesn't officially support any args, but pass them through in case some sub-class uses them.
     return $self->run(@_);
@@ -535,7 +543,17 @@ sub delete {
 	delete $self->{__PARAMS}->{$param};
 }
 
-
+sub env {
+	my $self = shift;
+	my ($env) = @_;
+	
+	# If data is provided, set it!
+	if (defined($env)) {
+		$self->{__ENV} = $env;
+	}
+	
+	return $self->{__ENV};
+}
 sub query {
 	my $self = shift;
 	my ($query) = @_;
@@ -1018,6 +1036,11 @@ CGI::Application will instantiate its own CGI.pm query object.
 Under certain conditions, it might be useful to be able to use
 one which has already been created.
 
+B<ENV> - This optional parameter allows you to save the PSGI environment hash. 
+This is useful, because you can later get this environment hash in your Application
+Module with the method $self->env which could be important for using Plack::Middlewares 
+and similiar.
+
 B<PARAMS> - This parameter, if used, allows you to set a number
 of custom parameters at run-time.  By passing in different
 values in different instance scripts which use the same application
@@ -1077,14 +1100,16 @@ support to it.
 
 The simplest way to create and return a PSGI-compatible coderef. Pass in
 arguments to a hashref just as would to new. This returns a PSGI-compatible
-coderef, using L<CGI:::PSGI> as the query object. To use a different query
-object, construct your own object using C<< run_as_psgi() >>, as shown below.
+coderef, using L<CGI:::PSGI> as the query object and saving the PSGI 
+environment hash in the key ENV so that it can be accesed with C<< $self->env >>. 
+To use a different query object, construct your own object using C<< run_as_psgi() >>, 
+as shown below.
 
 It's possible that we'll change from CGI::PSGI to a different-but-compatible
 query object for PSGI support in the future, perhaps if CGI.pm adds native
 PSGI support.
 
-=head3 run_as_psgi()
+=head3 run_as_psgi($env)
 
  my $psgi_aref = $webapp->run_as_psgi;
 
@@ -1114,6 +1139,11 @@ Note that calling C<< run_as_psgi >> only handles the I<output> portion of the
 PSGI spec. to handle the input, you need to use a CGI.pm-like query object that
 is PSGI-compliant, such as L<CGI::PSGI>. This query object must provide L<psgi_header>
 and L<psgi_redirect> methods.
+
+You can pass the PSGI enivornment hash as first argument to the run_as_psgi. This 
+is the same as passing C<< {ENV => $env} >> to the method C<< new >> or C<< as_psgi >>.
+The benefit of this is that you can later in your Application Module easily access to this 
+PSGI environment hash by C<< $self->env >>
 
 The final result might look like this:
 
@@ -1547,6 +1577,16 @@ you can pass it to c<query()> like this:
 
     $webapp->query($new_query_object);
     my $q = $webapp->query(); # now uses $new_query_object
+
+=head3 env()
+
+    my $q = $webapp->env();
+    my $session = Plack::Session->new($env);
+
+This method retrieves the PSGI environment hash which has been created
+by instantiating your Application Module as a psgi script. This is important 
+for using Plack::Middlewares, such as Plack::Middleware::Session in the 
+example above.
 
 =head3 run_modes()
 
