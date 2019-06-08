@@ -1101,7 +1101,7 @@ The use of psgi_app might look like this:
 	}
 
 	sub welcome {
-		return "Hello World $q";
+		return "Hello World";
 	}
 
 	package main;
