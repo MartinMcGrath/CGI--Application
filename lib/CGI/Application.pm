@@ -1078,11 +1078,35 @@ support to it.
 The simplest way to create and return a PSGI-compatible coderef. Pass in
 arguments to a hashref just as would to new. This returns a PSGI-compatible
 coderef, using L<CGI:::PSGI> as the query object. To use a different query
-object, construct your own object using C<< run_as_psgi() >>, as shown below.
+object, you have to construct your own object using C<< run_as_psgi() >>, 
+as shown below, because C<< psgi_app >> creates a new CGI::PSGI object
+unconditionally on every request and therefore overrides a own query object.
 
 It's possible that we'll change from CGI::PSGI to a different-but-compatible
 query object for PSGI support in the future, perhaps if CGI.pm adds native
 PSGI support.
+
+The use of psgi_app might look like this:
+
+	package WebApp;
+	use base "CGI::Application";
+
+	sub setup {
+		my $self = shift;
+		$self->start_mode('welcome');
+		$self->mode_param('rm');
+		$self->run_modes(
+		          'welcome' => 'welcome'
+		  );
+	}
+
+	sub welcome {
+		return "Hello World $q";
+	}
+
+	package main;
+
+	my $app = WebApp->psgi_app();
 
 =head3 run_as_psgi()
 
