@@ -23,10 +23,10 @@ To install this module, `cd` to the directory that contains this README
 file and type the following:
 
 ```
-perl Makefile.PL
-make
-make test
-make install
+perl Build.PL
+./Build
+./Build test
+./Build install
 ```
 
 CGI::Application builds on standard, non-proprietary technologies and
@@ -49,7 +49,5 @@ directly. Instead, it is intended that your Application Module will be
 implemented as a Sub-Class of CGI::Application.
 
 If you have any questions, comments, bug reports or feature suggestions,
-post them to the support mailing list!  To join the mailing list, simply
-send a blank message to "cgiapp-subscribe@lists.erlbaum.net".
-
-We also have an IRC channel named #cgiapp on irc.perl.org.
+post them to the support mailing list!  To join the mailing list, visit 
+http://lists.openlib.org/mailman/listinfo/cgiapp

@@ -1,3 +1,4 @@
+.travis.yml
 lib/CGI/Application.pm
 lib/CGI/Application/Mailform.pm
 ARTISTIC
@@ -45,3 +46,4 @@ t/lib/TestApp13.pm
 t/lib/TestApp14.pm
 t/lib/TestCGI.pm
 t/lib/templates/test.tmpl
+META.json

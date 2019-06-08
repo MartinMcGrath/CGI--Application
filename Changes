@@ -1,6 +1,23 @@
 Revision history for CGI::Application.
 
-4.50.51 (developer release) 2015-07-16
+4.61
+
+    - Release fix in 4.60_1
+
+4.60_1
+
+    [BUGS]
+    - Revert MANIFEST changes which seemed to have caused some issues
+      https://github.com/MartinMcGrath/CGI--Application/issues/5
+
+    [DOCUMENTATION]
+    - Fix minor POD typo.
+
+4.60
+    
+    - Release, includes all changes from 4.50_50, 4.50_51
+
+4.50_51 (developer release) 2015-07-16
 
     [BUGS]
     - Create new CGI::PSGI object unconditionally in psgi_app()/Bug #88506 (allter)
